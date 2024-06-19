@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
 import SignDialog from "@/components/signNewFile/signDialog";
+import NameDialog from "@/components/signNewFile/nameDialog";
 import IconPen from "@/assets/icons/pen.png";
-import IconImage from "@/assets/icons/impge.png";
 import IconDel from "@/assets/icons/del.png";
-
+import ImgDialog from "@/components/signNewFile/imgDialog";
 const SideBar: React.FC<any> = ({ file, fileName, selectSign }) => {
   const [signDialog, setSignDialog] = useState<boolean>(false);
+  const [name, setName] = useState<boolean>(false);
+  const [img, setImg] = useState<boolean>(false);
   const [src, setSrc] = useState<any>([]);
-
   const addSign = () => {
     setSignDialog(true);
   };
 
-  const handlerClose = () => setSignDialog((e) => !e);
-
+  const handlerClose = () => {
+    setSignDialog(false);
+    setName(false);
+    setImg(false);
+  };
+  const uploadImg = () => {};
   const addSignImg = (image: any) => {
     setSrc((arr: []) => [...arr, image]);
     handlerClose();
   };
-
+  const addName = () => {};
   const cooseSign = (item: any) => {
     selectSign(item);
   };
@@ -65,11 +70,35 @@ const SideBar: React.FC<any> = ({ file, fileName, selectSign }) => {
             Add sign
             <img src={IconPen} width="24" height="24" />
           </div>
+          <div
+            className="flex items-center justify-center py-[18px] border border-dashed hover:cursor-pointer"
+            onClick={() => setName(true)}
+          >
+            Type Name
+            <img src={IconPen} width="24" height="24" />
+          </div>
+          <div
+            className="flex items-center justify-center py-[18px] border border-dashed hover:cursor-pointer"
+            onClick={() => setImg(true)}
+          >
+            upload img
+            <img src={IconPen} width="24" height="24" />
+          </div>
         </div>
       </div>
       <SignDialog
         signDialog={signDialog}
         handlerClose={handlerClose}
+        addSignImg={(e: any) => addSignImg(e)}
+      />
+      <NameDialog
+        signDialog={name}
+        handlerClose={() => setName(false)}
+        addSignImg={(e: any) => addSignImg(e)}
+      />
+      <ImgDialog
+        signDialog={img}
+        handlerClose={() => setImg(false)}
         addSignImg={(e: any) => addSignImg(e)}
       />
     </>
